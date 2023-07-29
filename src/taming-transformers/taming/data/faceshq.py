@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import albumentations
+from glob import glob
+
 from torch.utils.data import Dataset
 
 from taming.data.base import ImagePaths, NumpyPaths, ConcatDatasetWithIndex
@@ -51,10 +53,8 @@ class CelebAHQValidation(FacesBase):
 class FFHQTrain(FacesBase):
     def __init__(self, size, keys=None):
         super().__init__()
-        root = "data/ffhq"
-        with open("data/ffhqtrain.txt", "r") as f:
-            relpaths = f.read().splitlines()
-        paths = [os.path.join(root, relpath) for relpath in relpaths]
+        root = "/home/anthony/datasets/ffhq/images1024x1024/00000"
+        paths = sorted(glob(os.path.join(root, '*.png')))
         self.data = ImagePaths(paths=paths, size=size, random_crop=False)
         self.keys = keys
 
@@ -62,10 +62,8 @@ class FFHQTrain(FacesBase):
 class FFHQValidation(FacesBase):
     def __init__(self, size, keys=None):
         super().__init__()
-        root = "data/ffhq"
-        with open("data/ffhqvalidation.txt", "r") as f:
-            relpaths = f.read().splitlines()
-        paths = [os.path.join(root, relpath) for relpath in relpaths]
+        root = "/home/anthony/datasets/ffhq/images1024x1024/01000"
+        paths = sorted(glob(os.path.join(root, '*.png')))
         self.data = ImagePaths(paths=paths, size=size, random_crop=False)
         self.keys = keys
 
